@@ -289,11 +289,17 @@ function generateManifest (interfaceManifest, opts) {
     let lastOffset
     let call = `(call $${op.name}`
     op.input.forEach((input) => {
-      if (input === 'i128' || input == 'address') {
+      if (input === 'i128' || input === 'address') {
+        let acquire
         if (spOffset) {
-          call += `(i32.add (get_global $sp) (i32.const ${spOffset * 32}))`
+          acquire = `(i32.add (get_global $sp) (i32.const ${spOffset * 32}))`
         } else {
-          call += '(get_global $sp)'
+          acquire = '(get_global $sp))'
+        }
+        if (input === 'address') {
+          call += `(call $bswap_m160 ${acquire})`
+        } else {
+          call += acquire
         }
       } else if (input === 'ipointer') {
         // input pointer
