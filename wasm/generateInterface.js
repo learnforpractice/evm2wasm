@@ -299,10 +299,17 @@ function generateManifest (interfaceManifest, opts) {
         // input pointer
         // points to a wasm memory offset where input data will be read
         // the wasm memory offset is an existing item on the EVM stack
+        let acquire
         if (spOffset) {
-          call += `(i32.add (get_global $sp) (i32.const ${spOffset * 32}))`
+          acquire = `(i32.add (get_global $sp) (i32.const ${spOffset * 32}))`
         } else {
-          call += '(get_global $sp)'
+          acquire = '(get_global $sp)'
+        }
+
+        if (opcode === 'SLOAD' || opcode === 'SSTORE') {
+          call += `(call $bswap_m256 ${acquire})`
+        } else {
+          call += acquire
         }
       } else if (input === 'opointer') {
         // output pointer
