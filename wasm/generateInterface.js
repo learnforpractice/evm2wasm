@@ -405,6 +405,8 @@ function generateManifest (interfaceManifest, opts) {
       }
 
       call += ')'
+      // change the item from BE to LE
+      call += '(drop (call $bswap_m160 (get_local $sp)))'
       call += cleanupStackItem160(spOffset)
     } else if (output === 'i256') {
       call = `${call} 
