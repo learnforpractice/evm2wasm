@@ -19,7 +19,7 @@ HunterGate(
 
 project(evm2wasm)
 
-include(ProjectBinaryen)
+#include(ProjectBinaryen)
 
 add_subdirectory(libs)
 
@@ -30,8 +30,8 @@ endif()
 
 install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(
-    EXPORT evm2wasmTargets
-    NAMESPACE evm2wasm::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/evm2wasm
-)
+#install(
+#    EXPORT evm2wasmTargets
+#    NAMESPACE evm2wasm::
+#    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/evm2wasm
+#)
